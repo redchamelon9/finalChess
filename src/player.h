@@ -1,19 +1,13 @@
 #pragma once
 class player
 {
-	//string		PlayerName;
-	int			PlayerID;
-	//piece		Piece;
-	
-	void	setName() {}
-	void	setPlayerID() {}
-	int		getPlayerID() {}
+	player();
+	~player();
 
-	player(){
-	
-	}
+	int Player1 = 1;
+	int Player2 = 2;
 
-
+	int	setName() {}
 
 };
 
