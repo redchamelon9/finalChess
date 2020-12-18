@@ -2,11 +2,12 @@
 class tile
 {
 public:
-	int posx;
-	int posy;
+	int			posx;
+	int			posy;
 
-	bool occupiedState;
-	piece typeOfPiece;
+	bool		occupiedState;
+	bool		colour;
+	//piece typeOfPiece;
 
 
 };

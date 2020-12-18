@@ -17,7 +17,8 @@ class ofApp : public ofBaseApp{
 		piece	wPawn;
 		piece	bPawn;
 
-		piece	currentPiece;
+		piece	*currentPiece;
+		player	*currentPlayer;
 
 		player bPlayer;
 		player wPlayer;

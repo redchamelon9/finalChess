@@ -1,5 +1,16 @@
 #include "Main.h"
 
+
+
+player::player() {
+	 
+}
+
+player::~player() {
+
+}
+
+
 void player::setUpPieces(board Board, bool colour) {
 
 
@@ -13,7 +24,15 @@ void player::setUpPieces(board Board, bool colour) {
 			pieceList[i]->PositionX = Board.TileList[i]->posx;
 			pieceList[i]->PositionY = Board.TileList[i]->posy;
 
-			Board.TileList[i]->typeOfPiece = *pieceList[i];
+			pieceList[i]->currentTile = Board.TileList[i];
+
+
+			Board.TileList[i]->occupiedState = true;
+			Board.TileList[i]->colour = true;
+
+
+			
+			//Board.TileList[i]->typeOfPiece = *pieceList[i];
 
 			if (i == 0 || i == 7) { //Condition for Rooks
 				pieceList[i]->piecePic = pieceImageList[0];
@@ -49,13 +68,17 @@ void player::setUpPieces(board Board, bool colour) {
 
 		for (int i = 0; i < 16; i++)
 		{
-			pieceList[i] = new piece;
-			pieceList[i]->IsEliminated = false;
+			pieceList[i] = new piece; // Creates a new piece for the first sixteen tiles
+			pieceList[i]->IsEliminated = false; // Just sets the alive state for the piece
 			
 			pieceList[i]->PositionX = Board.TileList[i + 48]->posx;
 			pieceList[i]->PositionY = Board.TileList[i + 48]->posy;
+			pieceList[i]->currentTile = Board.TileList[i];
 
-			Board.TileList[i]->typeOfPiece = *pieceList[i];
+
+			Board.TileList[i]->occupiedState = true;
+			Board.TileList[i]->colour = false;
+			//Board.TileList[i]->typeOfPiece = *pieceList[i];
 
 			if (i == 8 || i == 15) { //Condition for Rooks
 				pieceList[i]->piecePic = pieceImageList[0];
@@ -86,4 +109,21 @@ void player::setUpPieces(board Board, bool colour) {
 			pieceList[i]->piecePic.resize(60, 60);
 		}
 	}
+}
+
+
+void	player::setName() {
+
+	string name1 = "Player1";
+	string name2 = "Player2";
+
+
+
+	cout << "Player 1's name: \n";
+	cin >> name1;
+	cout << "Player 2's name: \n";
+	cin >> name2;
+
+	cout << "Player 1's name is " << name1;
+	cout << "Player 2's name is " << name2;
 }

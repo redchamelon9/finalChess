@@ -24,7 +24,7 @@ void ofApp::setup(){
 		Board.TileList[i] = new tile;
 		Board.TileList[i]->posx = defaultx;
 		Board.TileList[i]->posy = defaulty;
-		
+		Board.TileList[i]->occupiedState = false;
 
 		defaultx += 65;
 		boardCount++;
@@ -37,8 +37,10 @@ void ofApp::setup(){
 
 	}
 
-	wPlayer.setUpPieces(Board,true);
-	bPlayer.setUpPieces(Board, false);
+	wPlayer.setUpPieces(Board,true); // Setup white
+	bPlayer.setUpPieces(Board, false); // Setup black
+
+	currentPiece = wPlayer.pieceList[1]; // Just initializes the currentPiece variable
 
 	//Piece setup
 
@@ -85,8 +87,8 @@ void ofApp::update(){
 	*/
 	
 
-	currentPiece.PositionX;
-	currentPiece.PositionY;
+	currentPiece->PositionX;
+	currentPiece->PositionY;
 
 }
 
@@ -110,7 +112,7 @@ void ofApp::draw(){
 	
 	//ofEnableAlphaBlending();
 	
-	currentPiece.piecePic.draw(currentPiece.PositionX, currentPiece.PositionY);
+	currentPiece->piecePic.draw(currentPiece->PositionX, currentPiece->PositionY);
 	//ofSetColor(255, 255, 255, 100);
 //	ofDisableAlphaBlending();
 
@@ -146,8 +148,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 		
 		cout << "Dragging";
 
-		currentPiece.PositionX = x - 40;
-		currentPiece.PositionY = y - 40;
+		currentPiece->PositionX = x - 40;
+		currentPiece->PositionY = y - 40;
 
 		//wPawn.PositionX = x - 40;
 		//wPawn.PositionY = y - 40;
@@ -182,10 +184,19 @@ void ofApp::mousePressed(int x, int y, int button){
 			*/
 		
 			if (x > wPlayer.pieceList[i]->PositionX && x < wPlayer.pieceList[i]->PositionX + 70 && y > wPlayer.pieceList[i]->PositionY && y < wPlayer.pieceList[i]->PositionY + 70) {
-				currentPiece = *wPlayer.pieceList[i];
+				currentPiece = wPlayer.pieceList[i];
 
 				cout << "clicked on Piece";
-				cout << currentPiece.type;
+				cout << currentPiece->type;
+
+				mouseDraggingPiece = true;
+			}
+
+			if (x > bPlayer.pieceList[i]->PositionX && x < bPlayer.pieceList[i]->PositionX + 70 && y > bPlayer.pieceList[i]->PositionY && y < bPlayer.pieceList[i]->PositionY + 70) {
+				currentPiece = bPlayer.pieceList[i];
+
+				cout << "clicked on Piece";
+				cout << currentPiece->type;
 
 				mouseDraggingPiece = true;
 			}
@@ -206,15 +217,40 @@ void ofApp::mouseReleased(int x, int y, int button){
 		if (mouseDraggingPiece == true) {
 			for (int i = 0; i < 64; i++)
 			{
-				if (x > Board.TileList[i]->posx && x < Board.TileList[i]->posx + 70 && y > Board.TileList[i]->posy && y < Board.TileList[i]->posy + 70) {
+				if (x > Board.TileList[i]->posx && x < Board.TileList[i]->posx + 70 && y > Board.TileList[i]->posy && y < Board.TileList[i]->posy + 70 ) { //&& Board.TileList[i]->occupiedState == false
 					// Board.TileList[i]->posx; 
 					// Board.TileList[i]->posy;
-					currentPiece.PositionX = Board.TileList[i]->posx;
-					currentPiece.PositionY = Board.TileList[i]->posy;
 
+					if (Board.TileList[i]->occupiedState == false) {
+						currentPiece->PositionX = Board.TileList[i]->posx;
+						currentPiece->PositionY = Board.TileList[i]->posy;
+
+						currentPiece->currentTile->occupiedState = false;
+						currentPiece->currentTile = Board.TileList[i];
+						currentPiece->currentTile->occupiedState = true;
+
+					}
+					else if (Board.TileList[i]->occupiedState == true && Board.TileList[i]->colour != currentPiece->currentTile->colour)
+					{
+						for (int i = 0; i < 16; i++) // 64 for tiles
+						{
+							if (x > bPlayer.pieceList[i]->PositionX && x < bPlayer.pieceList[i]->PositionX + 70 && y > bPlayer.pieceList[i]->PositionY && y < bPlayer.pieceList[i]->PositionY + 70) {
+								
+								
+							}
+						}
+
+					}
+					else {
+						currentPiece->PositionX = currentPiece->currentTile->posx;
+						currentPiece->PositionY = currentPiece->currentTile->posy;
+
+
+					}
+					
 
 					// NEEDS AND IF STATEMENT			if( Move is allowed ) {
-					Board.TileList[i]->typeOfPiece = currentPiece;
+					//Board.TileList[i]->typeOfPiece = *currentPiece;
 
 					//wPlayer.pieceList->
 

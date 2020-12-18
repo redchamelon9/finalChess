@@ -15,14 +15,12 @@ public:
 
 	void		setUpPieces(board, bool);
 	
-	void		setName() {}
+	void		setName();
 	void		setPlayerID() {}
 	int			getPlayerID() {}
 
-	player(){
-	
-	}
-
+	player();
+	~player();
 
 
 };

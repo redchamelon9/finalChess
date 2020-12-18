@@ -16,8 +16,8 @@ void piece::eliminate(int opponentX, int opponentY) {
 
 	if (opponentX > this->PositionX && opponentX < this->PositionX + 70 && opponentY > this->PositionY && opponentY < this->PositionY + 70 ) { //&& IsEliminated != true
 		IsEliminated = true;
-		this->PositionX = 500;
-		this->PositionY = 200;
+		this->PositionX = opponentX;
+		this->PositionY = opponentY;
 	}
 
 }

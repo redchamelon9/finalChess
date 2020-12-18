@@ -9,6 +9,7 @@ public:
 	bool	IsEliminated;
 	int		MoveTo;
 	ofImage piecePic;
+	tile	*currentTile;
 
 	//ofImage	pieceImageList[6];
 	//piece*	alivePieceList;
