@@ -13,11 +13,10 @@ public:
 	//ofImage	pieceImageList[6];
 	//piece*	alivePieceList;
 	//piece*	eliminatedPieceList;
-	char	type;
+	const char*	type;
 	
 
 	//piece	getPiece(){}
-	char	getType() {}
 	void	move(int locationX, int locationY) {}
 	void	eliminate(int opponentX, int opponentY);
 	void	revive(int reviveX, int reviveY);

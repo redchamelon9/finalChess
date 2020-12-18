@@ -17,7 +17,13 @@ class ofApp : public ofBaseApp{
 		piece	wPawn;
 		piece	bPawn;
 
+		piece	currentPiece;
+
+		player bPlayer;
+		player wPlayer;
+
 		bool mouseDraggingPiece;
+		bool mouseReleasePiece;
 
 		int pieceX;
 		int pieceY;
