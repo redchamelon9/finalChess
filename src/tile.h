@@ -9,6 +9,8 @@ public:
 	int			colour;
 	//piece typeOfPiece;
 
+	tile();
+
 
 };
 

@@ -85,21 +85,21 @@ void player::setUpPieces(board Board, bool colour) {
 				
 			}
 			else if (i == 3 + blackPiecesIndex2) { //Condition for Queen
-				pieceList[i]->piecePic = pieceImageList[3];
-				pieceList[i]->type = "q";
-				
-				for (size_t j = 0; j < sizeof(pieceList[j]->queenArray) / sizeof(pieceList[j]->queenArray[0]); j++)
-				{
-					pieceList[i]->pieceMoveList.push_back(pieceList[i]->queenArray[j]);
-				}
-			}
-			else if (i == 4 + blackPiecesIndex2) { //Condition for King
 				pieceList[i]->piecePic = pieceImageList[4];
 				pieceList[i]->type = "k";
 				
 				for (size_t j = 0; j < sizeof(pieceList[j]->kingArray) / sizeof(pieceList[j]->kingArray[0]); j++)
 				{
 					pieceList[i]->pieceMoveList.push_back(pieceList[i]->kingArray[j]);
+				}
+			}
+			else if (i == 4 + blackPiecesIndex2) { //Condition for King
+				pieceList[i]->piecePic = pieceImageList[3];
+				pieceList[i]->type = "q";
+				
+				for (size_t j = 0; j < sizeof(pieceList[j]->queenArray) / sizeof(pieceList[j]->queenArray[0]); j++)
+				{
+					pieceList[i]->pieceMoveList.push_back(pieceList[i]->queenArray[j]);
 				}
 			}
 			else if (i >= 8 && colour == true) { //Condition for Pawn

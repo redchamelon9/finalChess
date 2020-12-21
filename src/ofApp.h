@@ -2,7 +2,6 @@
 
 #include "Main.h"
 
-
 class ofApp : public ofBaseApp{
 
 	public:
@@ -45,7 +44,5 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		void draggingPiece(int x, int y, piece draggedPiece);
-
-
 		
 };
