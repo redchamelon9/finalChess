@@ -27,7 +27,7 @@ void player::setUpPieces(board Board, bool colour) {
 				blackPiecesIndex2 = 8;
 
 				pieceList[i]->colour = 0;
-				Board.TileList[i]->colour = 0;
+				Board.TileList[i + 48]->colour = 0;
 			}
 			else if (colour == true) {
 				pieceList[i]->colour = 1;
@@ -125,69 +125,6 @@ void player::setUpPieces(board Board, bool colour) {
 			pieceList[i]->piecePic.resize(60, 60);
 		}
 	
-	/*
-	else if (colour == false) {
-
-
-		for (int i = 0; i < 16; i++)
-		{
-			int blackPiecesIndex = 0;
-			if (colour == false) {
-				blackPiecesIndex = 48;
-				pieceList[i]->colour = 0;
-
-			}
-
-			pieceList[i] = new piece; // Creates a new piece for the first sixteen tiles
-			pieceList[i]->IsEliminated = false; // Just sets the alive state for the piece
-			pieceList[i]->PositionX = Board.TileList[i + 48]->posx;
-			pieceList[i]->PositionY = Board.TileList[i + 48]->posy;
-			pieceList[i]->currentTile = Board.TileList[i + 48];
-			
-			pieceList[i]->currentIndex = i + 48;
-
-			Board.TileList[i + 48]->occupiedState = true;
-			Board.TileList[i + 48]->colour = 0;
-			
-
-			if (i == 8 || i == 15) { //Condition for Rooks
-				pieceList[i]->piecePic = pieceImageList[0];
-				pieceList[i]->type = "r";
-
-				for (size_t j = 0; j < sizeof(pieceList[j]->rookArray) / sizeof(pieceList[j]->rookArray[0]); j++)
-				{
-					pieceList[i]->pieceMoveList.push_back(pieceList[i]->rookArray[j]);
-				}
-			}
-			else if (i == 9 || i == 14) { 
-				pieceList[i]->piecePic = pieceImageList[1];
-				pieceList[i]->type = "n";
-			}
-			else if (i == 10 || i == 13) { //Condition for Knight
-				pieceList[i]->piecePic = pieceImageList[2];
-				pieceList[i]->type = "b";
-			}
-			else if (i == 11) { //Condition for Bishop
-				pieceList[i]->piecePic = pieceImageList[3];
-				pieceList[i]->type = "q";
-			}
-			else if (i == 12) { //Condition for Queen
-				pieceList[i]->piecePic = pieceImageList[4];
-				pieceList[i]->type = "k";
-			}
-			else if (i <= 7) { //Condition for King
-				pieceList[i]->piecePic = pieceImageList[5];
-				pieceList[i]->type = "p";
-			}
-
-			pieceList[i]->piecePic.draw(Board.TileList[i + 48]->posx, Board.TileList[i + 48]->posy);
-			pieceList[i]->piecePic.resize(60, 60);
-		}
-	}
-	*/
-
-	
-
 }
 
 

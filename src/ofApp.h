@@ -29,7 +29,7 @@ class ofApp : public ofBaseApp{
 		bool	turn;
 		//		Display
 		//		Input
-		bool	gameEnded;
+		bool	endState = false;
 		//AI	AI
 
 		void keyPressed(int key);

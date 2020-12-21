@@ -31,12 +31,31 @@ void piece::move(board Board, int i) {
 
 
 
-bool piece::moveCheck(int movingTo) {
+bool piece::moveCheck(board Board,int movingTo) {
 	for (int i = 0; i < this->pieceMoveList.size(); i++)
 	{
-
+		bool flag;
 		cout << this->pieceMoveList[i] << endl;
 		cout << i << endl << endl;
+
+
+		/*
+		if (this->currentIndex + this->pieceMoveList[i] < 64 && i > 0) { // Making sure not to index out of bounds
+
+			if (Board.TileList[this->currentIndex + this->pieceMoveList[i]]->occupiedState == true ) { // Asking if the next tile is occupied
+				
+				if ((movingTo - this->currentIndex) % (this->pieceMoveList[i] - this->pieceMoveList[i - 1]) == 0)
+				{
+					return false;
+				}
+				
+				
+			}
+		}
+
+		
+		*/
+		
 
 		if (movingTo - this->currentIndex == this->pieceMoveList[i] || (movingTo - this->currentIndex) * -1 == this->pieceMoveList[i]) {
 			return  true;
@@ -45,11 +64,26 @@ bool piece::moveCheck(int movingTo) {
 	return false;
 }
 
-void piece::eliminate() { 
+bool piece::eliminate() { 
 
 	
 		this->IsEliminated = true;
 		this->PositionX = 600;
 		this->PositionY = 500;
+		
+		if (this->pieceMoveList[2]==8) {
+			ofRectangle(0,0,1000,800);
+			if (this->colour == 0) {
 
+				cout << "END GAME";
+				return true;
+			}
+			else if (this->colour == 1) {
+				cout << "END GAME";
+				return true;
+			
+			}
+			
+		}
+		return false;
 }

@@ -77,27 +77,38 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	Board.boardImage.draw(0, 0);
+
+	if (endState == false) {
+		
+
+		Board.boardImage.draw(0, 0);
+
+		for (int i = 0; i < 16; i++)
+		{
+			wPlayer.pieceList[i]->piecePic.draw(wPlayer.pieceList[i]->PositionX, wPlayer.pieceList[i]->PositionY);
+			wPlayer.pieceList[i]->piecePic.resize(62, 62);
+
+			bPlayer.pieceList[i]->piecePic.draw(bPlayer.pieceList[i]->PositionX, bPlayer.pieceList[i]->PositionY);
+			bPlayer.pieceList[i]->piecePic.resize(62, 62);
+
+		}
+
+
+		currentPiece->piecePic.draw(currentPiece->PositionX, currentPiece->PositionY);
+		
+		
+		
+		
+	}
+	else {
+		ofSetColor(255, 255, 255, 50);
+		ofRectangle(0, 0, 1000, 800);
+
+		ofSetColor(255, 255, 255, 255);
+		ofDrawBitmapString("Game over", 220, 250);
 	
-	for (int i = 0; i < 16; i++)
-	{
-		wPlayer.pieceList[i]->piecePic.draw(wPlayer.pieceList[i]->PositionX, wPlayer.pieceList[i]->PositionY);
-		wPlayer.pieceList[i]->piecePic.resize(62, 62);
-
-		bPlayer.pieceList[i]->piecePic.draw(bPlayer.pieceList[i]->PositionX, bPlayer.pieceList[i]->PositionY);
-		bPlayer.pieceList[i]->piecePic.resize(62, 62);
-
-
-		//bPlayer.pieceImageList[i].draw(bPlayer.pieceList[i]->PositionX, bPlayer.pieceList[i]->PositionY);
 	}
 	
-	
-	
-	//ofEnableAlphaBlending();
-	
-	currentPiece->piecePic.draw(currentPiece->PositionX, currentPiece->PositionY);
-	//ofSetColor(255, 255, 255, 100);
-//	ofDisableAlphaBlending();
 
 	
 	
@@ -152,16 +163,6 @@ void ofApp::mousePressed(int x, int y, int button){
 		
 		for (int i = 0; i < 16; i++) // 64 for tiles
 		{
-
-			
-			//if (x > Board.TileList[i]->posx && x < Board.TileList[i]->posx + 70 && y > Board.TileList[i]->posy && y < Board.TileList[i]->posy + 70) {
-
-			//	cout << Board.TileList[i]->occupiedState;
-			//}
-			
-			/*
-			
-			*/
 			
 			if (x > wPlayer.pieceList[i]->PositionX && x < wPlayer.pieceList[i]->PositionX + 70 && y > wPlayer.pieceList[i]->PositionY && y < wPlayer.pieceList[i]->PositionY + 70 && turn == true) {
 				currentPiece = wPlayer.pieceList[i];
@@ -181,12 +182,8 @@ void ofApp::mousePressed(int x, int y, int button){
 			}
 			
 			
-
-			
-			
 		}
 		
-	//}
 }
 
 
@@ -205,7 +202,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 					// Board.TileList[i]->posy;
 
 					if (Board.TileList[i]->occupiedState == false) { // If the tile isn't occupied
-						if (currentPiece->moveCheck(i) == true) {
+						if (currentPiece->moveCheck(Board,i) == true) {
 							currentPiece->move(Board, i); // Moves the piece to a specific place
 							turn = !turn;
 							cout << turn;
@@ -217,12 +214,12 @@ void ofApp::mouseReleased(int x, int y, int button){
 					else if (Board.TileList[i]->occupiedState == true && Board.TileList[i]->colour != currentPiece->currentTile->colour && Board.TileList[i]->colour != 2) // If the tile is occupied by the other player
 					{
 
-						if (currentPiece->moveCheck(i) == true) {
+						if (currentPiece->moveCheck(Board,i) == true) {
 							if (currentPiece->currentTile->colour == 1) { // If the piece attacking is white
 								for (int j = 0; j < 16; j++) // 64 for tiles
 								{
 									if (x > bPlayer.pieceList[j]->PositionX && x < bPlayer.pieceList[j]->PositionX + 70 && y > bPlayer.pieceList[j]->PositionY && y < bPlayer.pieceList[j]->PositionY + 70) {
-										bPlayer.pieceList[j]->eliminate();
+										endState = bPlayer.pieceList[j]->eliminate();
 
 										currentPiece->move(Board, i); // Moves the piece to a specific place
 
@@ -235,7 +232,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 								for (int j = 0; j < 16; j++) // 64 for tiles
 								{
 									if (x > wPlayer.pieceList[j]->PositionX && x < wPlayer.pieceList[j]->PositionX + 70 && y > wPlayer.pieceList[j]->PositionY && y < wPlayer.pieceList[j]->PositionY + 70) {
-										wPlayer.pieceList[j]->eliminate();
+										endState = wPlayer.pieceList[j]->eliminate();
 									
 										currentPiece->move(Board, i); // Moves the piece to a specific place
 
