@@ -6,7 +6,7 @@ public:
 	int			posy;
 
 	bool		occupiedState;
-	bool		colour;
+	int			colour;
 	//piece typeOfPiece;
 
 

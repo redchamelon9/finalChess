@@ -26,11 +26,7 @@ class ofApp : public ofBaseApp{
 		bool mouseDraggingPiece;
 		bool mouseReleasePiece;
 
-		int pieceX;
-		int pieceY;
-
-		int pieceX2;
-		int pieceY2;
+		bool	turn;
 		//		Display
 		//		Input
 		bool	gameEnded;

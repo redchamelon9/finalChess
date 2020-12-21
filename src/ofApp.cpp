@@ -9,6 +9,7 @@ void ofApp::setup(){
 	int boardCount = 0;
 	int defaultx = 0;
 	int defaulty = 0;
+	turn = true;
 
 	
 
@@ -24,8 +25,12 @@ void ofApp::setup(){
 		Board.TileList[i] = new tile;
 		Board.TileList[i]->posx = defaultx;
 		Board.TileList[i]->posy = defaulty;
-		Board.TileList[i]->occupiedState = false;
 
+		//if (i < 48 || i > 16) {
+			Board.TileList[i]->occupiedState = false;
+			Board.TileList[i]->colour = 2;
+		//}
+		
 		defaultx += 65;
 		boardCount++;
 
@@ -45,21 +50,6 @@ void ofApp::setup(){
 	//Piece setup
 
 
-
-	wPawn.piecePic.load("pawn-w.png"); // Can use a for loop later for this
-	wPawn.piecePic.resize(80, 80);
-
-
-	bPawn.piecePic.load("pawn-b.png"); // Can use a for loop later for this
-	bPawn.piecePic.resize(80, 80);
-
-	wPawn.PositionX = 115;
-	wPawn.PositionY = 300;
-
-	bPawn.PositionX = 115;
-	bPawn.PositionY = 185;
-	wPawn.IsEliminated = false;
-
 	bool mouseDraggingPiece = false;
 	bool mouseReleasePiece = false;
 
@@ -70,13 +60,6 @@ void ofApp::setup(){
 void ofApp::update(){
 
 	
-	
-	
-	wPawn.PositionX;
-	wPawn.PositionY;
-
-	bPawn.PositionX;
-	bPawn.PositionY;
 
 	/*
 	for (int i = 0; i < 16; i++)
@@ -145,9 +128,7 @@ void ofApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
 	if (mouseDraggingPiece == true ) {
-		
-		cout << "Dragging";
-
+	
 		currentPiece->PositionX = x - 40;
 		currentPiece->PositionY = y - 40;
 
@@ -172,35 +153,37 @@ void ofApp::mousePressed(int x, int y, int button){
 		for (int i = 0; i < 16; i++) // 64 for tiles
 		{
 
+			
+			//if (x > Board.TileList[i]->posx && x < Board.TileList[i]->posx + 70 && y > Board.TileList[i]->posy && y < Board.TileList[i]->posy + 70) {
+
+			//	cout << Board.TileList[i]->occupiedState;
+			//}
+			
 			/*
-			if (x > Board.TileList[i]->posx && x < Board.TileList[i]->posx + 70 && y > Board.TileList[i]->posy && y < Board.TileList[i]->posy + 70) {
-
-				currentPiece = Board.TileList[i]->typeOfPiece;
-
-				cout << currentPiece.type;
-				
-				mouseDraggingPiece = true;
-			}
+			
 			*/
-		
-			if (x > wPlayer.pieceList[i]->PositionX && x < wPlayer.pieceList[i]->PositionX + 70 && y > wPlayer.pieceList[i]->PositionY && y < wPlayer.pieceList[i]->PositionY + 70) {
+			
+			if (x > wPlayer.pieceList[i]->PositionX && x < wPlayer.pieceList[i]->PositionX + 70 && y > wPlayer.pieceList[i]->PositionY && y < wPlayer.pieceList[i]->PositionY + 70 && turn == true) {
 				currentPiece = wPlayer.pieceList[i];
 
-				cout << "clicked on Piece";
-				cout << currentPiece->type;
+				//cout << "clicked on Piece";
+				//cout << currentPiece->type;
 
 				mouseDraggingPiece = true;
 			}
-
-			if (x > bPlayer.pieceList[i]->PositionX && x < bPlayer.pieceList[i]->PositionX + 70 && y > bPlayer.pieceList[i]->PositionY && y < bPlayer.pieceList[i]->PositionY + 70) {
+			else if (x > bPlayer.pieceList[i]->PositionX && x < bPlayer.pieceList[i]->PositionX + 70 && y > bPlayer.pieceList[i]->PositionY && y < bPlayer.pieceList[i]->PositionY + 70 && turn == false) { //
 				currentPiece = bPlayer.pieceList[i];
 
-				cout << "clicked on Piece";
-				cout << currentPiece->type;
+				//cout << "clicked on Piece";
+				//cout << currentPiece->type;
 
 				mouseDraggingPiece = true;
 			}
+			
+			
 
+			
+			
 		}
 		
 	//}
@@ -221,27 +204,49 @@ void ofApp::mouseReleased(int x, int y, int button){
 					// Board.TileList[i]->posx; 
 					// Board.TileList[i]->posy;
 
-					if (Board.TileList[i]->occupiedState == false) {
-						currentPiece->PositionX = Board.TileList[i]->posx;
-						currentPiece->PositionY = Board.TileList[i]->posy;
-
-						currentPiece->currentTile->occupiedState = false;
-						currentPiece->currentTile = Board.TileList[i];
-						currentPiece->currentTile->occupiedState = true;
+					if (Board.TileList[i]->occupiedState == false) { // If the tile isn't occupied
+						if (currentPiece->moveCheck(i) == true) {
+							currentPiece->move(Board, i); // Moves the piece to a specific place
+							turn = !turn;
+							cout << turn;
+						}
+						
+						//cout << "Piece is placed";
 
 					}
-					else if (Board.TileList[i]->occupiedState == true && Board.TileList[i]->colour != currentPiece->currentTile->colour)
+					else if (Board.TileList[i]->occupiedState == true && Board.TileList[i]->colour != currentPiece->currentTile->colour && Board.TileList[i]->colour != 2) // If the tile is occupied by the other player
 					{
-						for (int i = 0; i < 16; i++) // 64 for tiles
-						{
-							if (x > bPlayer.pieceList[i]->PositionX && x < bPlayer.pieceList[i]->PositionX + 70 && y > bPlayer.pieceList[i]->PositionY && y < bPlayer.pieceList[i]->PositionY + 70) {
-								
-								
+
+						if (currentPiece->moveCheck(i) == true) {
+							if (currentPiece->currentTile->colour == 1) { // If the piece attacking is white
+								for (int j = 0; j < 16; j++) // 64 for tiles
+								{
+									if (x > bPlayer.pieceList[j]->PositionX && x < bPlayer.pieceList[j]->PositionX + 70 && y > bPlayer.pieceList[j]->PositionY && y < bPlayer.pieceList[j]->PositionY + 70) {
+										bPlayer.pieceList[j]->eliminate();
+
+										currentPiece->move(Board, i); // Moves the piece to a specific place
+
+										turn = !turn;
+
+									}
+								}
+							}
+							else if (currentPiece->currentTile->colour == 0) { // If the piece attacking is black
+								for (int j = 0; j < 16; j++) // 64 for tiles
+								{
+									if (x > wPlayer.pieceList[j]->PositionX && x < wPlayer.pieceList[j]->PositionX + 70 && y > wPlayer.pieceList[j]->PositionY && y < wPlayer.pieceList[j]->PositionY + 70) {
+										wPlayer.pieceList[j]->eliminate();
+									
+										currentPiece->move(Board, i); // Moves the piece to a specific place
+
+										turn = !turn;
+									}
+								}
 							}
 						}
 
 					}
-					else {
+					else { // If the tile is occupied by an ally piece
 						currentPiece->PositionX = currentPiece->currentTile->posx;
 						currentPiece->PositionY = currentPiece->currentTile->posy;
 
@@ -255,14 +260,18 @@ void ofApp::mouseReleased(int x, int y, int button){
 					//wPlayer.pieceList->
 
 				}
+				else {
+					currentPiece->PositionX = currentPiece->currentTile->posx;
+					currentPiece->PositionY = currentPiece->currentTile->posy;
+				
+				}
 			}
 
 		
 		}
 		mouseDraggingPiece = false;
 			//mouseReleasePiece = false;
-	
-			bPawn.eliminate(wPawn.PositionX, wPawn.PositionY);
+
 
 	}
 
